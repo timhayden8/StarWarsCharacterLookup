@@ -3,17 +3,20 @@ function starwarscharacterlookup
 {
     param ([string]$character)
     $Characters = invoke-restmethod https://swapi.dev/api/people
-    $lookup = ($characters.results | where-object {$_.name -like "*$character*"}) 
-    $hw = (invoke-restmethod $lookup.homeworld)
-    $hw=$hw.name
-    $lookup=$lookup.name
-    $content="$lookup is from $hw"
-    $payload = [pscustomobject]@{
-        content = $content
-    }
+    $lookup = ($characters.results | where-object {$_.name -like "*$character*"})
+    if($lookup -ne $null)
+    {
+        $hw = (invoke-restmethod $lookup.homeworld)
+        $hw=$hw.name
+        $lookup=$lookup.name
+        $content="$lookup is from $hw"
+        $payload = [pscustomobject]@{
+            content = $content
+        }
     #discord webhook
-    $Hook="ENTER YOUR WEBHOOK URI HERE"
+    $Hook="YOUR WEBHOOK URL HERE"
     invoke-restmethod $hook -method Post -body ($payload | convertto-json) -ContentType 'application/json'
-
+    }
+    Else {Write-host "This API is a demo and doesn't have all the characters, brother"}    
 }
 starwarscharacterlookup -character "Obi-Wan"
