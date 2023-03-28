@@ -12,7 +12,7 @@ function starwarscharacterlookup
         content = $content
     }
     #discord webhook
-    $Hook="https://discord.com/api/webhooks/1090132828894806126/gXsU36xyPMhyaid8htTLbh7F3NM4JsnQMNTUs4_dtZJ4nEcrjUEK3UXEiRVkzTnOmOy9"
+    $Hook="ENTER YOUR WEBHOOK URI HERE"
     invoke-restmethod $hook -method Post -body ($payload | convertto-json) -ContentType 'application/json'
 
 }
